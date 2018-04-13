@@ -69,6 +69,11 @@ class RestaurantDetailView(DetailView):
 	# 	obj = get_object_or_404(RestaurantLocation, id=rest_id)
 	# 	return obj
 
+class RestaurantCreateView(CreateView):
+	form_class = RestaurantLocationCreateForm
+	template_name = 'restaurants/form.html'
+	success_url = "/restaurants/"
+
 
 
 
