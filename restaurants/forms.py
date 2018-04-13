@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import RestaurantLocation
+from .validators import validate_category
 
 
 class RestaurantCreateForm(forms.Form):
@@ -18,3 +19,4 @@ class RestaurantLocationCreateForm(forms.ModelForm):
 			'location',
 			'category',
 		]
+
