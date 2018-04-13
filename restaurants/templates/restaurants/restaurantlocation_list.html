@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Restaurants List</h1>
+
+
+<ul>
+{% for obj in object_list %}
+	<li>{{ obj }}</li>
+{% endfor %}
+
+
+</ul>
+
+
+{% endblock content %}
