@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.contrib.auth.decorators import login_required #for function-based views
+from django.contrib.auth.mixins import LoginRequiredMixin #for class-based views
 # Create your views here.
 
 from .models import RestaurantLocation
@@ -10,6 +12,7 @@ from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 
 
 #Function-based views
+@login_required(login_url='/login/')
 def restaurant_createview(request):
 	form = RestaurantLocationCreateForm()
 	if request.method == "POST":
@@ -75,8 +78,9 @@ class RestaurantDetailView(DetailView):
 	# 	obj = get_object_or_404(RestaurantLocation, id=rest_id)
 	# 	return obj
 
-class RestaurantCreateView(CreateView):
+class RestaurantCreateView(LoginRequiredMixin, CreateView):
 	form_class = RestaurantLocationCreateForm
+	login_url = '/login/' #can also set this in settings.py with LOGIN_URL = '/login/' This however is overwritten by anything in the views.py
 	template_name = 'restaurants/form.html'
 	success_url = "/restaurants/"
 
