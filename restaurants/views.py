@@ -82,7 +82,7 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
 	form_class = RestaurantLocationCreateForm
 	login_url = '/login/' #can also set this in settings.py with LOGIN_URL = '/login/' This however is overwritten by anything in the views.py
 	template_name = 'restaurants/form.html'
-	success_url = "/restaurants/"
+	# success_url = "/restaurants/"
 
 	def form_valid(self, form):
 		instance = form.save(commit=False)
