@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from django.contrib.auth.views import LoginView
+
+
 from restaurants.views import (
     restaurant_listview, 
     HomeView, 
@@ -29,6 +32,7 @@ from restaurants.views import (
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^$', HomeView.as_view()),
     url(r'^about/$', AboutView.as_view()),
     url(r'^contact/$', ContactView.as_view()),
