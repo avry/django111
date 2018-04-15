@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 from .models import Item
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import ItemForm
@@ -43,7 +44,7 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
 
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
-	template_name = 'form.html'
+	template_name = 'menus/detail_update.html'
 	form_class = ItemForm
 	def get_queryset(self):
 		return Item.objects.filter(user=self.request.user)

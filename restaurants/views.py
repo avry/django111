@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.db.models import Q
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required #for function-based views
 from django.contrib.auth.mixins import LoginRequiredMixin #for class-based views
 # Create your views here.
@@ -51,21 +51,14 @@ def restaurant_listview(request):
 
 
 #Generic View
-class RestaurantListView(ListView):
+class RestaurantListView(LoginRequiredMixin, ListView):
 	def get_queryset(self):
-		slug = self.kwargs.get("slug")
-		if slug:
-			queryset = RestaurantLocation.objects.filter(
-				Q(category__iexact=slug) |
-				Q(category__icontains=slug) 
-			)
-		else:
-			queryset = RestaurantLocation.objects.all()
-		return queryset
+		return RestaurantLocation.objects.filter(owner=self.request.user)
 
 
-class RestaurantDetailView(DetailView):
-	queryset = RestaurantLocation.objects.all()
+class RestaurantDetailView(LoginRequiredMixin, DetailView):
+	def get_queryset(self):
+		return RestaurantLocation.objects.filter(owner=self.request.user)
 
 	# def get_context_data(self, *args, **kwargs):
 	# 	print(self.kwargs)
@@ -94,6 +87,25 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
 		context = super(RestaurantCreateView, self).get_context_data(*args, **kwargs)
 		context['title'] = 'Add Restaurant'
 		return context 
+
+
+class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
+	form_class = RestaurantLocationCreateForm
+	login_url = '/login/' #can also set this in settings.py with LOGIN_URL = '/login/' This however is overwritten by anything in the views.py
+	template_name = 'restaurants/detail_update.html'
+	# success_url = "/restaurants/"
+
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(RestaurantUpdateView, self).get_context_data(*args, **kwargs)
+		name = self.get_object().name
+		context['title'] = 'Update Restaurant: {name}'
+		return context 
+
+
+	def get_queryset(self):
+		return RestaurantLocation.objects.filter(owner=self.request.user)
+
 
 
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Menu Items</h1>
+<h1>Menu Items<small><a href="{% url 'menus:create' %}">Add new Item</a></small></h1>
 
 
 <ul>
@@ -26,7 +26,11 @@
 	</ul>
 	{% endif %}
 
+
+
 	</li>
+	{% empty %}
+	<li><a href="{% url 'menus:create' %}">Add new Item</a></li>
 
 {% endfor %} 	
 
