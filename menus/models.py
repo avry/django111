@@ -6,6 +6,7 @@ from restaurants.models import RestaurantLocation
 # Create your models here.
 
 class Item(models.Model):
+	#these are just association relationship. Auto-association.
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	restaurant = models.ForeignKey(RestaurantLocation)
 
@@ -16,6 +17,9 @@ class Item(models.Model):
 	public = models.BooleanField(default=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return self.name
 
 	def get_absolute_url(self):
 		return reverse('menus:detail', kwargs={'pk': self.pk})

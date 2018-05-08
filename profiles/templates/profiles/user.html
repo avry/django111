@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ user.username }}</h1>
+<hr/>
+
+{% for rest in user.restaurantlocation_set.all %}
+	<li><b>{{ rest.title }}</b> | {{ rest.location }} | {{ rest.category }}</li>
+		<ul>
+			{% for item in rest.item_set.all %}
+				<li style='margin-bottom: 15px;'>{{ item.name }} <br/>
+					{% for ing in item.get_contents %}
+					<span style='padding: 2px 4px; margin-right:4px; '>{{ ing }}</span>
+					{% endfor %}
+
+				</li>
+			{% endfor %}			
+		</ul>
+{% endfor %}
+
+
+
+
+
+
+
+{% endblock content %}
